@@ -17,7 +17,7 @@ export function PictureAsset({
   priority = 'default',
   decoding = 'async',
 }: PictureAssetProps) {
-  const base = `/media/${image.slug}`;
+  const base = `${import.meta.env.BASE_URL}media/${image.slug}`;
 
   return (
     <picture className={className}>

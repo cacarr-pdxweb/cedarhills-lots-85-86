@@ -7,7 +7,7 @@ export const LINKS = {
     'https://www.google.com/maps/d/viewer?mid=1H5dBGOnLBPvfd0z6hkgU14s5sVXlSSE&usp=sharing',
   disclosureDrive:
     'https://drive.google.com/drive/folders/1lUBBPffAMEI4arvtBt4cq5OIdVQA9cTB?usp=sharing',
-  kmlDownload: '/Cedar_Hills_Lots_85_86.kml',
+  kmlDownload: `${import.meta.env.BASE_URL}Cedar_Hills_Lots_85_86.kml`,
 } as const;
 
 export interface PropertyImage {
