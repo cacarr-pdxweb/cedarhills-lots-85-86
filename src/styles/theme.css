@@ -1,0 +1,328 @@
+@import "tailwindcss";
+
+:root {
+  /* Raw light & dark desert sunset + high-desert juniper tokens */
+  --canvas-light: #faf5ee;
+  --surface-light: #fffdf9;
+  --subtle-light: #f2e7d8;
+  --muted-bg-light: #e8dac6;
+  --ink-primary-light: #1b231d;
+  --ink-secondary-light: #434d45;
+  --ink-muted-light: #5c645b;
+  --sunset-light: #b84925;
+  --sunset-hover-light: #9a3b1c;
+  --sunset-ink-light: #ffffff;
+  --sunset-soft-light: #f9eae1;
+  --sunset-soft-ink-light: #853014;
+  --horizon-glow-light: #e2874e;
+  --dusk-rose-light: #7f3b43;
+  --juniper-light: #2c4936;
+  --juniper-ink-light: #ffffff;
+  --juniper-soft-light: #e3ece5;
+  --juniper-soft-ink-light: #1f3928;
+  --border-subtle-light: #dfd2bf;
+  --border-strong-light: #c2b096;
+  --scrollbar-track-light: #efe5d7;
+  --scrollbar-thumb-light: #8b7b66;
+
+  --canvas-dark: #121713;
+  --surface-dark: #1a211c;
+  --subtle-dark: #232b25;
+  --muted-bg-dark: #2c362e;
+  --ink-primary-dark: #f3ece2;
+  --ink-secondary-dark: #cbc5ba;
+  --ink-muted-dark: #a6a197;
+  --sunset-dark: #e57c54;
+  --sunset-hover-dark: #ee916d;
+  --sunset-ink-dark: #17120e;
+  --sunset-soft-dark: #34201a;
+  --sunset-soft-ink-dark: #f5b79c;
+  --horizon-glow-dark: #d9824c;
+  --dusk-rose-dark: #d18a92;
+  --juniper-dark: #82b390;
+  --juniper-ink-dark: #0f1a13;
+  --juniper-soft-dark: #213327;
+  --juniper-soft-ink-dark: #b8dec2;
+  --border-subtle-dark: #2e3830;
+  --border-strong-dark: #48564b;
+  --scrollbar-track-dark: #1a211c;
+  --scrollbar-thumb-dark: #68756a;
+
+  /* Default light values + media query fallback before light-dark() */
+  --bg-canvas: var(--canvas-light);
+  --bg-surface: var(--surface-light);
+  --bg-subtle: var(--subtle-light);
+  --bg-muted: var(--muted-bg-light);
+  --text-primary: var(--ink-primary-light);
+  --text-secondary: var(--ink-secondary-light);
+  --text-muted: var(--ink-muted-light);
+  --accent-sunset: var(--sunset-light);
+  --accent-sunset-hover: var(--sunset-hover-light);
+  --accent-sunset-ink: var(--sunset-ink-light);
+  --accent-sunset-soft: var(--sunset-soft-light);
+  --accent-sunset-soft-ink: var(--sunset-soft-ink-light);
+  --accent-horizon: var(--horizon-glow-light);
+  --accent-dusk: var(--dusk-rose-light);
+  --accent-juniper: var(--juniper-light);
+  --accent-juniper-ink: var(--juniper-ink-light);
+  --accent-juniper-soft: var(--juniper-soft-light);
+  --accent-juniper-soft-ink: var(--juniper-soft-ink-light);
+  --border-subtle: var(--border-subtle-light);
+  --border-strong: var(--border-strong-light);
+  --scrollbar-track: var(--scrollbar-track-light);
+  --scrollbar-thumb: var(--scrollbar-thumb-light);
+
+  @media (prefers-color-scheme: dark) {
+    --bg-canvas: var(--canvas-dark);
+    --bg-surface: var(--surface-dark);
+    --bg-subtle: var(--subtle-dark);
+    --bg-muted: var(--muted-bg-dark);
+    --text-primary: var(--ink-primary-dark);
+    --text-secondary: var(--ink-secondary-dark);
+    --text-muted: var(--ink-muted-dark);
+    --accent-sunset: var(--sunset-dark);
+    --accent-sunset-hover: var(--sunset-hover-dark);
+    --accent-sunset-ink: var(--sunset-ink-dark);
+    --accent-sunset-soft: var(--sunset-soft-dark);
+    --accent-sunset-soft-ink: var(--sunset-soft-ink-dark);
+    --accent-horizon: var(--horizon-glow-dark);
+    --accent-dusk: var(--dusk-rose-dark);
+    --accent-juniper: var(--juniper-dark);
+    --accent-juniper-ink: var(--juniper-ink-dark);
+    --accent-juniper-soft: var(--juniper-soft-dark);
+    --accent-juniper-soft-ink: var(--juniper-soft-ink-dark);
+    --border-subtle: var(--border-subtle-dark);
+    --border-strong: var(--border-strong-dark);
+    --scrollbar-track: var(--scrollbar-track-dark);
+    --scrollbar-thumb: var(--scrollbar-thumb-dark);
+  }
+
+  @supports (color: light-dark(white, black)) {
+    --bg-canvas: light-dark(var(--canvas-light), var(--canvas-dark));
+    --bg-surface: light-dark(var(--surface-light), var(--surface-dark));
+    --bg-subtle: light-dark(var(--subtle-light), var(--subtle-dark));
+    --bg-muted: light-dark(var(--muted-bg-light), var(--muted-bg-dark));
+    --text-primary: light-dark(var(--ink-primary-light), var(--ink-primary-dark));
+    --text-secondary: light-dark(var(--ink-secondary-light), var(--ink-secondary-dark));
+    --text-muted: light-dark(var(--ink-muted-light), var(--ink-muted-dark));
+    --accent-sunset: light-dark(var(--sunset-light), var(--sunset-dark));
+    --accent-sunset-hover: light-dark(var(--sunset-hover-light), var(--sunset-hover-dark));
+    --accent-sunset-ink: light-dark(var(--sunset-ink-light), var(--sunset-ink-dark));
+    --accent-sunset-soft: light-dark(var(--sunset-soft-light), var(--sunset-soft-dark));
+    --accent-sunset-soft-ink: light-dark(var(--sunset-soft-ink-light), var(--sunset-soft-ink-dark));
+    --accent-horizon: light-dark(var(--horizon-glow-light), var(--horizon-glow-dark));
+    --accent-dusk: light-dark(var(--dusk-rose-light), var(--dusk-rose-dark));
+    --accent-juniper: light-dark(var(--juniper-light), var(--juniper-dark));
+    --accent-juniper-ink: light-dark(var(--juniper-ink-light), var(--juniper-ink-dark));
+    --accent-juniper-soft: light-dark(var(--juniper-soft-light), var(--juniper-soft-dark));
+    --accent-juniper-soft-ink: light-dark(var(--juniper-soft-ink-light), var(--juniper-soft-ink-dark));
+    --border-subtle: light-dark(var(--border-subtle-light), var(--border-subtle-dark));
+    --border-strong: light-dark(var(--border-strong-light), var(--border-strong-dark));
+    --scrollbar-track: light-dark(var(--scrollbar-track-light), var(--scrollbar-track-dark));
+    --scrollbar-thumb: light-dark(var(--scrollbar-thumb-light), var(--scrollbar-thumb-dark));
+  }
+
+  --font-serif: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  color-scheme: light dark;
+  accent-color: var(--accent-sunset);
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+  scrollbar-width: thin;
+}
+
+@supports not (scrollbar-color: auto) {
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+  }
+}
+
+html {
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  text-align: start;
+  scroll-padding-top: 5.5rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Warm sunset horizon backdrop accent at top of page */
+.desert-horizon-wash {
+  background-image:
+    radial-gradient(ellipse 80% 55% at 85% -10%, color-mix(in oklab, var(--accent-horizon) 16%, transparent), transparent 65%),
+    radial-gradient(ellipse 65% 45% at 10% 0%, color-mix(in oklab, var(--accent-dusk) 10%, transparent), transparent 60%);
+}
+
+/* Editorial responsive typography (max <= 2.5x min for WCAG 1.4.4 zoom) */
+.display-hero {
+  font-family: var(--font-serif);
+  font-size: clamp(2.15rem, 1.5rem + 2.4vw, 3.65rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.display-section {
+  font-family: var(--font-serif);
+  font-size: clamp(1.65rem, 1.25rem + 1.4vw, 2.45rem);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+.prose-copy {
+  max-width: 62ch;
+  text-wrap: pretty;
+}
+
+.font-mono-tabular {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Accessible focus outlines */
+:where(a:any-link, button, summary, input, select, textarea, [tabindex="0"]):focus-visible {
+  outline: 3px solid var(--accent-sunset);
+  outline-offset: 3px;
+}
+
+/* Visually hidden utility keeping focusable skip-links visible on focus */
+.visually-hidden:where(:not(:focus-within, :active)) {
+  position: absolute !important;
+  clip-path: inset(50%) !important;
+  overflow: hidden !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  white-space: nowrap !important;
+}
+
+.skip-link:focus-visible {
+  position: fixed;
+  inset-block-start: 0.75rem;
+  inset-inline-start: 0.75rem;
+  z-index: 100;
+  padding: 0.625rem 1rem;
+  border-radius: 0.5rem;
+  background-color: var(--accent-juniper);
+  color: var(--accent-juniper-ink);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* Native <dialog> lightbox: scroll lock containment & top-layer animation */
+dialog.lightbox-dialog:modal {
+  overscroll-behavior: contain;
+}
+
+dialog.lightbox-dialog::backdrop {
+  overflow: hidden;
+  overscroll-behavior: contain;
+  background-color: rgba(12, 16, 13, 0);
+  backdrop-filter: blur(0px);
+  transition-property: background-color, backdrop-filter, display, overlay;
+  transition-duration: 0.24s;
+  transition-timing-function: ease-out;
+  transition-behavior: allow-discrete;
+}
+
+dialog.lightbox-dialog {
+  opacity: 0;
+  padding: 0;
+  border: 1px solid var(--border-strong);
+  border-radius: 1rem;
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  max-inline-size: min(94dvw, 1280px);
+  max-block-size: 92dvh;
+  margin: auto;
+  transition-property: opacity, transform, display, overlay;
+  transition-duration: 0.24s;
+  transition-timing-function: ease-out;
+  transition-behavior: allow-discrete;
+
+  @media (prefers-reduced-motion: no-preference) {
+    transform: scale(0.96);
+  }
+}
+
+dialog.lightbox-dialog[open]:where(:not([data-closing])) {
+  opacity: 1;
+
+  @starting-style {
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    transform: scale(1);
+
+    @starting-style {
+      transform: scale(0.96);
+    }
+  }
+
+  &::backdrop {
+    background-color: rgba(12, 16, 13, 0.78);
+    backdrop-filter: blur(6px);
+
+    @starting-style {
+      background-color: rgba(12, 16, 13, 0);
+      backdrop-filter: blur(0px);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  dialog.lightbox-dialog,
+  dialog.lightbox-dialog::backdrop {
+    transition-duration: 0.1s;
+  }
+}
+
+/* Subtle native <details> disclosure chevron animation */
+details.faq-item > summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+details.faq-item > summary::-webkit-details-marker {
+  display: none;
+}
+
+details.faq-item[open] .faq-chevron {
+  transform: rotate(180deg);
+}
+
+/* Forced Colors / Windows High Contrast fallback */
+@media (forced-colors: active) {
+  :where(a:any-link, button, summary, input, select, textarea):focus-visible {
+    outline: 3px solid Highlight;
+  }
+  .desert-card,
+  dialog.lightbox-dialog {
+    border: 1px solid CanvasText;
+  }
+}
