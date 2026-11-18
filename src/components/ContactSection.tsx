@@ -1,10 +1,12 @@
 import { useId, useState, type FormEvent } from 'react';
 import { Check, Copy, Mail, Send } from 'lucide-react';
-import { CONTACT_EMAIL } from '../data/propertyData';
+import { buildMailtoHref, CONTACT_EMAIL } from '../data/propertyData';
+import { useCopyToClipboard } from '../hooks/useCopyToClipboard';
+
+const DIRECT_INQUIRY_HREF = buildMailtoHref('Cedar Hills Unit 5 Lots 85 & 86 Inquiry');
 
 export function ContactSection() {
-  const [copied, setCopied] = useState(false);
-  const [statusMessage, setStatusMessage] = useState('');
+  const { copiedKey, statusMessage, copy, announce } = useCopyToClipboard(2400);
   const [buyerName, setBuyerName] = useState('');
   const [buyerEmail, setBuyerEmail] = useState('');
   const [closingPreference, setClosingPreference] = useState('Escrow.com');
@@ -17,20 +19,17 @@ export function ContactSection() {
   const closingId = useId();
   const noteId = useId();
 
-  const handleCopyEmail = async () => {
-    try {
-      await navigator.clipboard.writeText(CONTACT_EMAIL);
-      setCopied(true);
-      setStatusMessage(`Copied ${CONTACT_EMAIL} to clipboard`);
-      window.setTimeout(() => setCopied(false), 2400);
-    } catch {
-      setStatusMessage(`Owner email address: ${CONTACT_EMAIL}`);
-    }
+  const handleCopyEmail = () => {
+    void copy(
+      CONTACT_EMAIL,
+      'email',
+      `Copied ${CONTACT_EMAIL} to clipboard`,
+      `Owner email address: ${CONTACT_EMAIL}`,
+    );
   };
 
   const handleComposeSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const subject = encodeURIComponent('Inquiry: Cedar Hills Unit 5 Lots 85 & 86 (Apache County, AZ)');
     const lines = [
       `Name: ${buyerName || '(not provided)'}`,
       `Reply Email: ${buyerEmail || '(see sender)'}`,
@@ -38,48 +37,52 @@ export function ContactSection() {
       '',
       note,
     ];
-    const body = encodeURIComponent(lines.join('\n'));
-    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
-    setStatusMessage(`Opening email draft to ${CONTACT_EMAIL}`);
+    window.location.href = buildMailtoHref(
+      'Inquiry: Cedar Hills Unit 5 Lots 85 & 86 (Apache County, AZ)',
+      lines.join('\n'),
+    );
+    announce(`Opening email draft to ${CONTACT_EMAIL}`);
   };
+
+  const copied = copiedKey === 'email';
 
   return (
     <section
       id="contact"
       aria-labelledby="contact-heading"
-      className="py-14 sm:py-20 border-t border-[var(--border-subtle)]"
+      className="py-14 sm:py-20 border-t border-line"
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div className="desert-card rounded-3xl border border-[var(--border-subtle)] bg-[var(--bg-surface)] p-6 sm:p-10">
+        <div className="desert-card rounded-3xl p-6 sm:p-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
             {/* Left: Direct Owner Contact */}
             <div className="lg:col-span-5">
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--accent-sunset)]">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-sunset">
                 Direct From Owner
               </p>
-              <h2 id="contact-heading" className="display-section mt-1.5 text-[var(--text-primary)]">
+              <h2 id="contact-heading" className="display-section mt-1.5 text-ink">
                 Inquire or Purchase Lots 85 &amp; 86
               </h2>
-              <p className="mt-3 text-base text-[var(--text-secondary)] prose-copy">
+              <p className="mt-3 text-base text-ink-secondary prose-copy">
                 Email directly for purchase agreements, escrow setup, or any questions after reviewing
                 the county packet.
               </p>
 
-              <div className="mt-6 rounded-2xl border border-[var(--border-subtle)] bg-[var(--bg-canvas)] p-4 sm:p-5">
-                <p className="text-xs uppercase tracking-wider font-semibold text-[var(--text-muted)]">
+              <div className="mt-6 rounded-2xl border border-line bg-canvas p-4 sm:p-5">
+                <p className="text-xs uppercase tracking-wider font-semibold text-ink-muted">
                   Owner Contact Email
                 </p>
                 <a
-                  href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Cedar Hills Unit 5 Lots 85 & 86 Inquiry')}`}
-                  className="mt-1.5 block font-mono-tabular text-[0.875rem] sm:text-base font-medium text-[var(--accent-sunset)] hover:underline [overflow-wrap:anywhere]"
+                  href={DIRECT_INQUIRY_HREF}
+                  className="mt-1.5 block font-mono-tabular text-[0.875rem] sm:text-base font-medium text-sunset hover:underline [overflow-wrap:anywhere]"
                 >
                   {CONTACT_EMAIL}
                 </a>
 
                 <div className="mt-4 flex flex-wrap gap-2.5">
                   <a
-                    href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Cedar Hills Unit 5 Lots 85 & 86 Inquiry')}`}
-                    className="inline-flex items-center gap-2 min-h-10 px-4 py-2 rounded-xl bg-[var(--accent-sunset)] text-[var(--accent-sunset-ink)] text-sm font-semibold hover:bg-[var(--accent-sunset-hover)] transition-colors"
+                    href={DIRECT_INQUIRY_HREF}
+                    className="inline-flex items-center gap-2 min-h-10 px-4 py-2 rounded-xl bg-sunset text-sunset-ink text-sm font-semibold hover:bg-sunset-hover transition-colors"
                   >
                     <Mail className="w-4 h-4" aria-hidden="true" />
                     <span>Email Owner</span>
@@ -87,11 +90,11 @@ export function ContactSection() {
                   <button
                     type="button"
                     onClick={handleCopyEmail}
-                    className="inline-flex items-center gap-2 min-h-10 px-4 py-2 rounded-xl border border-[var(--border-strong)] bg-[var(--bg-surface)] text-sm font-medium text-[var(--text-primary)] hover:bg-[var(--bg-subtle)] transition-colors cursor-pointer"
+                    className="inline-flex items-center gap-2 min-h-10 px-4 py-2 rounded-xl border border-line-strong bg-surface text-sm font-medium text-ink hover:bg-subtle transition-colors cursor-pointer"
                   >
                     {copied ? (
                       <>
-                        <Check className="w-4 h-4 text-[var(--accent-juniper)]" aria-hidden="true" />
+                        <Check className="w-4 h-4 text-juniper" aria-hidden="true" />
                         <span>Copied Email</span>
                       </>
                     ) : (
@@ -108,11 +111,11 @@ export function ContactSection() {
             {/* Right: Lightweight Mailto Draft Builder */}
             <form
               onSubmit={handleComposeSubmit}
-              className="lg:col-span-7 space-y-4 rounded-2xl border border-[var(--border-subtle)] bg-[var(--bg-canvas)] p-5 sm:p-6"
+              className="lg:col-span-7 space-y-4 rounded-2xl border border-line bg-canvas p-5 sm:p-6"
             >
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor={nameId} className="block text-xs font-semibold text-[var(--text-secondary)] mb-1.5">
+                  <label htmlFor={nameId} className="block text-xs font-semibold text-ink-secondary mb-1.5">
                     Your Name
                   </label>
                   <input
@@ -122,11 +125,11 @@ export function ContactSection() {
                     value={buyerName}
                     onChange={(e) => setBuyerName(e.target.value)}
                     placeholder="Alex Rivera"
-                    className="w-full min-h-10 px-3.5 py-2 rounded-xl border border-[var(--border-strong)] bg-[var(--bg-surface)] text-sm text-[var(--text-primary)]"
+                    className="w-full min-h-10 px-3.5 py-2 rounded-xl border border-line-strong bg-surface text-sm text-ink"
                   />
                 </div>
                 <div>
-                  <label htmlFor={emailId} className="block text-xs font-semibold text-[var(--text-secondary)] mb-1.5">
+                  <label htmlFor={emailId} className="block text-xs font-semibold text-ink-secondary mb-1.5">
                     Your Email
                   </label>
                   <input
@@ -137,20 +140,20 @@ export function ContactSection() {
                     value={buyerEmail}
                     onChange={(e) => setBuyerEmail(e.target.value)}
                     placeholder="you@example.com"
-                    className="w-full min-h-10 px-3.5 py-2 rounded-xl border border-[var(--border-strong)] bg-[var(--bg-surface)] text-sm text-[var(--text-primary)]"
+                    className="w-full min-h-10 px-3.5 py-2 rounded-xl border border-line-strong bg-surface text-sm text-ink"
                   />
                 </div>
               </div>
 
               <div>
-                <label htmlFor={closingId} className="block text-xs font-semibold text-[var(--text-secondary)] mb-1.5">
+                <label htmlFor={closingId} className="block text-xs font-semibold text-ink-secondary mb-1.5">
                   Preferred Closing Option
                 </label>
                 <select
                   id={closingId}
                   value={closingPreference}
                   onChange={(e) => setClosingPreference(e.target.value)}
-                  className="w-full min-h-10 px-3.5 py-2 rounded-xl border border-[var(--border-strong)] bg-[var(--bg-surface)] text-sm text-[var(--text-primary)]"
+                  className="w-full min-h-10 px-3.5 py-2 rounded-xl border border-line-strong bg-surface text-sm text-ink"
                 >
                   <option value="Escrow.com">Escrow.com Online Settlement</option>
                   <option value="Direct Cash / Wire + Recorded Deed">
@@ -164,7 +167,7 @@ export function ContactSection() {
               </div>
 
               <div>
-                <label htmlFor={noteId} className="block text-xs font-semibold text-[var(--text-secondary)] mb-1.5">
+                <label htmlFor={noteId} className="block text-xs font-semibold text-ink-secondary mb-1.5">
                   Message
                 </label>
                 <textarea
@@ -172,18 +175,18 @@ export function ContactSection() {
                   rows={3}
                   value={note}
                   onChange={(e) => setNote(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-[var(--border-strong)] bg-[var(--bg-surface)] text-sm text-[var(--text-primary)]"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-line-strong bg-surface text-sm text-ink"
                 />
               </div>
 
               <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
-                <p className="text-xs text-[var(--text-muted)]">
+                <p className="text-xs text-ink-muted">
                   Opens your default email client pre-addressed to{' '}
                   <span className="font-mono-tabular">{CONTACT_EMAIL}</span>.
                 </p>
                 <button
                   type="submit"
-                  className="inline-flex items-center gap-2 min-h-10 px-5 py-2 rounded-xl bg-[var(--accent-juniper)] text-[var(--accent-juniper-ink)] text-sm font-semibold hover:opacity-90 transition-opacity cursor-pointer"
+                  className="inline-flex items-center gap-2 min-h-10 px-5 py-2 rounded-xl bg-juniper text-juniper-ink text-sm font-semibold hover:opacity-90 transition-opacity cursor-pointer"
                 >
                   <Send className="w-4 h-4" aria-hidden="true" />
                   <span>Compose Email Draft</span>

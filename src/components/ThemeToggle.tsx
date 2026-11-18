@@ -76,7 +76,7 @@ export function ThemeToggle() {
       <div
         role="group"
         aria-label="Color theme"
-        className="inline-flex items-center p-0.5 rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-surface)]"
+        className="inline-flex items-center p-0.5 rounded-xl border border-line bg-surface"
       >
         <button
           type="button"
@@ -84,8 +84,8 @@ export function ThemeToggle() {
           onClick={() => selectScheme('light')}
           className={`inline-flex items-center justify-center gap-1.5 min-h-8 min-w-8 sm:min-w-0 px-2 sm:px-2.5 py-1 rounded-[0.625rem] text-xs font-semibold transition-colors cursor-pointer ${
             scheme === 'light'
-              ? 'bg-[var(--accent-juniper)] text-[var(--accent-juniper-ink)]'
-              : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+              ? 'bg-juniper text-juniper-ink'
+              : 'text-ink-secondary hover:text-ink'
           }`}
         >
           <Sun className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
@@ -99,8 +99,8 @@ export function ThemeToggle() {
           onClick={() => selectScheme('dark')}
           className={`inline-flex items-center justify-center gap-1.5 min-h-8 min-w-8 sm:min-w-0 px-2 sm:px-2.5 py-1 rounded-[0.625rem] text-xs font-semibold transition-colors cursor-pointer ${
             scheme === 'dark'
-              ? 'bg-[var(--accent-juniper)] text-[var(--accent-juniper-ink)]'
-              : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+              ? 'bg-juniper text-juniper-ink'
+              : 'text-ink-secondary hover:text-ink'
           }`}
         >
           <Moon className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />

@@ -1,4 +1,5 @@
 export const CONTACT_EMAIL = 'cedarhills.lots8586@gmail.com';
+export const KML_FILENAME = 'Cedar_Hills_Lots_85_86.kml';
 
 export const LINKS = {
   myMapsEmbed:
@@ -7,8 +8,16 @@ export const LINKS = {
     'https://www.google.com/maps/d/viewer?mid=1H5dBGOnLBPvfd0z6hkgU14s5sVXlSSE&usp=sharing',
   disclosureDrive:
     'https://drive.google.com/drive/folders/1lUBBPffAMEI4arvtBt4cq5OIdVQA9cTB?usp=sharing',
-  kmlDownload: `${import.meta.env.BASE_URL}Cedar_Hills_Lots_85_86.kml`,
+  kmlDownload: `${import.meta.env.BASE_URL}${KML_FILENAME}`,
 } as const;
+
+/** Build a mailto: URI using percent-encoding (not '+' spaces) for mail client compatibility. */
+export function buildMailtoHref(subject?: string, body?: string): string {
+  const parts: string[] = [];
+  if (subject) parts.push(`subject=${encodeURIComponent(subject)}`);
+  if (body) parts.push(`body=${encodeURIComponent(body)}`);
+  return parts.length > 0 ? `mailto:${CONTACT_EMAIL}?${parts.join('&')}` : `mailto:${CONTACT_EMAIL}`;
+}
 
 export interface PropertyImage {
   id: string;

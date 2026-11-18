@@ -1,11 +1,36 @@
 @import "tailwindcss";
 
+@theme {
+  --font-serif: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+@theme inline {
+  --color-canvas: var(--bg-canvas);
+  --color-surface: var(--bg-surface);
+  --color-subtle: var(--bg-subtle);
+  --color-ink: var(--text-primary);
+  --color-ink-secondary: var(--text-secondary);
+  --color-ink-muted: var(--text-muted);
+  --color-sunset: var(--accent-sunset);
+  --color-sunset-hover: var(--accent-sunset-hover);
+  --color-sunset-ink: var(--accent-sunset-ink);
+  --color-sunset-soft: var(--accent-sunset-soft);
+  --color-sunset-soft-ink: var(--accent-sunset-soft-ink);
+  --color-juniper: var(--accent-juniper);
+  --color-juniper-ink: var(--accent-juniper-ink);
+  --color-juniper-soft: var(--accent-juniper-soft);
+  --color-juniper-soft-ink: var(--accent-juniper-soft-ink);
+  --color-line: var(--border-subtle);
+  --color-line-strong: var(--border-strong);
+}
+
 :root {
   /* Raw light & dark desert sunset + high-desert juniper tokens */
   --canvas-light: #faf5ee;
   --surface-light: #fffdf9;
   --subtle-light: #f2e7d8;
-  --muted-bg-light: #e8dac6;
   --ink-primary-light: #1b231d;
   --ink-secondary-light: #434d45;
   --ink-muted-light: #5c645b;
@@ -28,7 +53,6 @@
   --canvas-dark: #121713;
   --surface-dark: #1a211c;
   --subtle-dark: #232b25;
-  --muted-bg-dark: #2c362e;
   --ink-primary-dark: #f3ece2;
   --ink-secondary-dark: #cbc5ba;
   --ink-muted-dark: #a6a197;
@@ -49,20 +73,13 @@
   --scrollbar-thumb-dark: #68756a;
 
   /* Resolved scheme state driven by OS preference or <meta name="color-scheme"> override */
-  --color-scheme: light;
   color-scheme: light dark;
 
-  @media (prefers-color-scheme: dark) {
-    --color-scheme: dark;
-  }
-
   &:has(> head > meta[name="color-scheme"][content="dark"]) {
-    --color-scheme: dark;
     color-scheme: dark;
   }
 
   &:has(> head > meta[name="color-scheme"][content="light"]) {
-    --color-scheme: light;
     color-scheme: light;
   }
 
@@ -70,7 +87,6 @@
   --bg-canvas: var(--canvas-light);
   --bg-surface: var(--surface-light);
   --bg-subtle: var(--subtle-light);
-  --bg-muted: var(--muted-bg-light);
   --text-primary: var(--ink-primary-light);
   --text-secondary: var(--ink-secondary-light);
   --text-muted: var(--ink-muted-light);
@@ -95,7 +111,6 @@
       --bg-canvas: var(--canvas-dark);
       --bg-surface: var(--surface-dark);
       --bg-subtle: var(--subtle-dark);
-      --bg-muted: var(--muted-bg-dark);
       --text-primary: var(--ink-primary-dark);
       --text-secondary: var(--ink-secondary-dark);
       --text-muted: var(--ink-muted-dark);
@@ -121,7 +136,6 @@
     --bg-canvas: var(--canvas-dark);
     --bg-surface: var(--surface-dark);
     --bg-subtle: var(--subtle-dark);
-    --bg-muted: var(--muted-bg-dark);
     --text-primary: var(--ink-primary-dark);
     --text-secondary: var(--ink-secondary-dark);
     --text-muted: var(--ink-muted-dark);
@@ -146,7 +160,6 @@
     --bg-canvas: light-dark(var(--canvas-light), var(--canvas-dark));
     --bg-surface: light-dark(var(--surface-light), var(--surface-dark));
     --bg-subtle: light-dark(var(--subtle-light), var(--subtle-dark));
-    --bg-muted: light-dark(var(--muted-bg-light), var(--muted-bg-dark));
     --text-primary: light-dark(var(--ink-primary-light), var(--ink-primary-dark));
     --text-secondary: light-dark(var(--ink-secondary-light), var(--ink-secondary-dark));
     --text-muted: light-dark(var(--ink-muted-light), var(--ink-muted-dark));
@@ -166,10 +179,6 @@
     --scrollbar-track: light-dark(var(--scrollbar-track-light), var(--scrollbar-track-dark));
     --scrollbar-thumb: light-dark(var(--scrollbar-thumb-light), var(--scrollbar-thumb-dark));
   }
-
-  --font-serif: "Newsreader", Georgia, "Times New Roman", serif;
-  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
   accent-color: var(--accent-sunset);
   scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
@@ -358,6 +367,14 @@ details.faq-item > summary::-webkit-details-marker {
 
 details.faq-item[open] .faq-chevron {
   transform: rotate(180deg);
+}
+
+@layer components {
+  .desert-card {
+    border: 1px solid var(--border-subtle);
+    background-color: var(--bg-surface);
+    border-radius: 1rem;
+  }
 }
 
 /* Forced Colors / Windows High Contrast fallback */
