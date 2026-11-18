@@ -48,7 +48,25 @@
   --scrollbar-track-dark: #1a211c;
   --scrollbar-thumb-dark: #68756a;
 
-  /* Default light values + media query fallback before light-dark() */
+  /* Resolved scheme state driven by OS preference or <meta name="color-scheme"> override */
+  --color-scheme: light;
+  color-scheme: light dark;
+
+  @media (prefers-color-scheme: dark) {
+    --color-scheme: dark;
+  }
+
+  &:has(> head > meta[name="color-scheme"][content="dark"]) {
+    --color-scheme: dark;
+    color-scheme: dark;
+  }
+
+  &:has(> head > meta[name="color-scheme"][content="light"]) {
+    --color-scheme: light;
+    color-scheme: light;
+  }
+
+  /* Default light values + media query / override fallback before light-dark() */
   --bg-canvas: var(--canvas-light);
   --bg-surface: var(--surface-light);
   --bg-subtle: var(--subtle-light);
@@ -73,6 +91,33 @@
   --scrollbar-thumb: var(--scrollbar-thumb-light);
 
   @media (prefers-color-scheme: dark) {
+    &:not(:has(> head > meta[name="color-scheme"][content="light"])) {
+      --bg-canvas: var(--canvas-dark);
+      --bg-surface: var(--surface-dark);
+      --bg-subtle: var(--subtle-dark);
+      --bg-muted: var(--muted-bg-dark);
+      --text-primary: var(--ink-primary-dark);
+      --text-secondary: var(--ink-secondary-dark);
+      --text-muted: var(--ink-muted-dark);
+      --accent-sunset: var(--sunset-dark);
+      --accent-sunset-hover: var(--sunset-hover-dark);
+      --accent-sunset-ink: var(--sunset-ink-dark);
+      --accent-sunset-soft: var(--sunset-soft-dark);
+      --accent-sunset-soft-ink: var(--sunset-soft-ink-dark);
+      --accent-horizon: var(--horizon-glow-dark);
+      --accent-dusk: var(--dusk-rose-dark);
+      --accent-juniper: var(--juniper-dark);
+      --accent-juniper-ink: var(--juniper-ink-dark);
+      --accent-juniper-soft: var(--juniper-soft-dark);
+      --accent-juniper-soft-ink: var(--juniper-soft-ink-dark);
+      --border-subtle: var(--border-subtle-dark);
+      --border-strong: var(--border-strong-dark);
+      --scrollbar-track: var(--scrollbar-track-dark);
+      --scrollbar-thumb: var(--scrollbar-thumb-dark);
+    }
+  }
+
+  &:has(> head > meta[name="color-scheme"][content="dark"]) {
     --bg-canvas: var(--canvas-dark);
     --bg-surface: var(--surface-dark);
     --bg-subtle: var(--subtle-dark);
@@ -126,7 +171,6 @@
   --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  color-scheme: light dark;
   accent-color: var(--accent-sunset);
   scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
   scrollbar-width: thin;

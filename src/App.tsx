@@ -16,6 +16,7 @@ import { ImageViewer } from './components/ImageViewer';
 import { MapAndAccess } from './components/MapAndAccess';
 import { ParcelDiagram } from './components/ParcelDiagram';
 import { PictureAsset } from './components/PictureAsset';
+import { ThemeToggle } from './components/ThemeToggle';
 import {
   CONTACT_EMAIL,
   KEY_SPECS,
@@ -51,19 +52,21 @@ export default function App() {
 
       {/* Compact Sticky Header */}
       <header className="sticky top-0 z-40 border-b border-[var(--border-subtle)] bg-[var(--bg-canvas)]/90 backdrop-blur-md">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2.5 sm:gap-4">
           <a
             href="#top"
-            className="flex items-center gap-2.5 text-sm sm:text-base font-semibold tracking-tight text-[var(--text-primary)]"
+            className="flex items-center gap-2 text-sm sm:text-base font-semibold tracking-tight text-[var(--text-primary)] shrink-0"
           >
             <span
               aria-hidden="true"
               className="w-2.5 h-2.5 rounded-full bg-gradient-to-br from-[var(--accent-sunset)] to-[var(--accent-juniper)]"
             />
-            <span>Cedar Hills · Lots 85 &amp; 86</span>
+            <span>
+              Cedar Hills<span className="hidden min-[420px]:inline"> · Lots 85 &amp; 86</span>
+            </span>
           </a>
 
-          <nav aria-label="Primary" className="hidden md:flex items-center gap-6 text-sm text-[var(--text-secondary)]">
+          <nav aria-label="Primary" className="hidden lg:flex items-center gap-6 text-sm text-[var(--text-secondary)]">
             <a href="#overview" className="hover:text-[var(--text-primary)] transition-colors">
               Overview
             </a>
@@ -78,12 +81,16 @@ export default function App() {
             </a>
           </nav>
 
-          <a
-            href="#contact"
-            className="inline-flex items-center gap-2 min-h-9 px-3.5 py-1.5 rounded-xl bg-[var(--accent-sunset)] text-[var(--accent-sunset-ink)] text-xs sm:text-sm font-semibold hover:bg-[var(--accent-sunset-hover)] transition-colors shrink-0"
-          >
-            <span>$4,950 Cash · Inquire</span>
-          </a>
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+            <ThemeToggle />
+            <a
+              href="#contact"
+              className="inline-flex items-center gap-1.5 min-h-9 px-3 sm:px-3.5 py-1.5 rounded-xl bg-[var(--accent-sunset)] text-[var(--accent-sunset-ink)] text-xs sm:text-sm font-semibold hover:bg-[var(--accent-sunset-hover)] transition-colors shrink-0"
+            >
+              <span className="hidden sm:inline">$4,950 Cash · </span>
+              <span>Inquire</span>
+            </a>
+          </div>
         </div>
       </header>
 
