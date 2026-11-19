@@ -55,7 +55,7 @@ export default function App() {
       </a>
 
       {/* Compact Sticky Header */}
-      <header className="sticky top-0 z-40 border-b border-line bg-canvas/90 backdrop-blur-md">
+      <header className="sticky top-0 z-40 border-b border-line-strong/70 bg-surface/95 backdrop-blur-md">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2.5 sm:gap-4">
           <a
             href="#top"
