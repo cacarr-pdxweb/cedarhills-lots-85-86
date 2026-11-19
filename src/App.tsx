@@ -173,7 +173,7 @@ export default function App() {
                   <button
                     type="button"
                     onClick={() => handleOpenLightbox(HERO_IMAGE_INDEX)}
-                    aria-label="Inspect 3D high-desert plateau view of Lots 85 and 86 in full screen"
+                    aria-label="View 7 Photos & Plat — inspect 3D high-desert plateau view of Lots 85 and 86 in full screen"
                     className="group relative block w-full text-left cursor-zoom-in focus-visible:outline-offset-[-3px]"
                   >
                     <PictureAsset

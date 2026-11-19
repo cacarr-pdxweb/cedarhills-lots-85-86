@@ -1,7 +1,38 @@
+import { useEffect, useRef, useState } from 'react';
 import { Download, ExternalLink, MapPin, Navigation } from 'lucide-react';
-import { DRIVING_STEPS, KML_FILENAME, LINKS } from '../data/propertyData';
+import { DRIVING_STEPS, KML_FILENAME, LINKS, PROPERTY_IMAGES } from '../data/propertyData';
+import { PictureAsset } from './PictureAsset';
+
+const MAP_PREVIEW_IMAGE = PROPERTY_IMAGES.find((img) => img.id === 'route-2d-sat') ?? PROPERTY_IMAGES[0];
 
 export function MapAndAccess() {
+  const [shouldLoadMap, setShouldLoadMap] = useState(false);
+  const mapFrameRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (shouldLoadMap) return;
+    if (typeof IntersectionObserver === 'undefined') {
+      setShouldLoadMap(true);
+      return;
+    }
+
+    const node = mapFrameRef.current;
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setShouldLoadMap(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '200px' },
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [shouldLoadMap]);
+
   return (
     <section
       id="map"
@@ -42,17 +73,38 @@ export function MapAndAccess() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
-          {/* Embedded Google My Maps Viewer */}
+          {/* Embedded Google My Maps Viewer (mounted when near viewport or requested) */}
           <div className="lg:col-span-7 desert-card overflow-hidden">
-            <div className="aspect-[4/3] w-full bg-subtle">
-              <iframe
-                title="Interactive Google My Maps viewer showing Chambers AZ driving route, Cherrys Road turnoff, and boundaries for Lots 85 and 86"
-                src={LINKS.myMapsEmbed}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                className="block w-full h-full border-0"
-                allowFullScreen
-              />
+            <div ref={mapFrameRef} className="relative aspect-[4/3] w-full bg-subtle">
+              {shouldLoadMap ? (
+                <iframe
+                  title="Interactive Google My Maps viewer showing Chambers AZ driving route, Cherrys Road turnoff, and boundaries for Lots 85 and 86"
+                  src={LINKS.myMapsEmbed}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  className="block w-full h-full border-0"
+                  allowFullScreen
+                />
+              ) : (
+                <>
+                  <PictureAsset
+                    image={MAP_PREVIEW_IMAGE}
+                    sizes="(max-width: 1024px) 100vw, 660px"
+                    priority="lazy"
+                    imgClassName="block w-full h-full object-cover opacity-85"
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/25 p-4">
+                    <button
+                      type="button"
+                      onClick={() => setShouldLoadMap(true)}
+                      className="inline-flex items-center gap-2 min-h-10 px-4 py-2 rounded-xl bg-juniper text-juniper-ink text-sm font-semibold shadow-lg hover:opacity-95 transition-opacity cursor-pointer"
+                    >
+                      <MapPin className="w-4 h-4" aria-hidden="true" />
+                      <span>Load Interactive Google My Maps</span>
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
             <div className="px-4 sm:px-5 py-3.5 border-t border-line flex flex-wrap items-center justify-between gap-2 text-xs text-ink-secondary">
               <span className="inline-flex items-center gap-1.5">

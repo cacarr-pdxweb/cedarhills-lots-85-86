@@ -118,7 +118,7 @@ export function ImageViewer({
               type="button"
               onClick={() => onOpenLightbox(activeIndex)}
               className="group relative block w-full text-left cursor-zoom-in focus-visible:outline-offset-[-3px]"
-              aria-label={`Open full-resolution viewer for ${currentImage.title}`}
+              aria-label={`Inspect Full Resolution — ${currentImage.title}`}
             >
               <PictureAsset
                 image={currentImage}

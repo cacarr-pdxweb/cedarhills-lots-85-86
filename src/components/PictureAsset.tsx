@@ -23,12 +23,12 @@ export function PictureAsset({
     <picture className={className}>
       <source
         type="image/avif"
-        srcSet={`${base}-960.avif 960w, ${base}-1920.avif 1920w`}
+        srcSet={`${base}-640.avif 640w, ${base}-960.avif 960w, ${base}-1920.avif 1920w`}
         sizes={sizes}
       />
       <source
         type="image/webp"
-        srcSet={`${base}-960.webp 960w, ${base}-1920.webp 1920w`}
+        srcSet={`${base}-640.webp 640w, ${base}-960.webp 960w, ${base}-1920.webp 1920w`}
         sizes={sizes}
       />
       <img
